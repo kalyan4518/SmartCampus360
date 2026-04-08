@@ -10,6 +10,11 @@ Student Login – Accessible only using KLH domain email IDs.
 Faculty Login – Accessible using any valid email ID.  
 Admin Login – Provides full access to manage campus data.
 
+Dummy Login Credentials (for local/demo use)
+- Student: `student@klh.edu` / `1234`
+- Faculty: `faculty@test.com` / `1234`
+- Admin: `admin@test.com` / `1234`
+
 👩‍🎓 Student Portal
 - View upcoming events and announcements.
 - Access resources uploaded by faculty (downloadable).
