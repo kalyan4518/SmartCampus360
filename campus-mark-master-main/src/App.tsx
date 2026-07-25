@@ -1,19 +1,21 @@
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
-import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
-import Events from "./pages/Events";
-import LostFound from "./pages/LostFound";
-import Feedback from "./pages/Feedback";
-import Clubs from "./pages/Clubs";
-import Resources from "./pages/Resources";
-import Polls from "./pages/Polls";
-import Announcements from "./pages/Announcements";
-import NotFound from "./pages/NotFound";
+
+const Index = lazy(() => import("./pages/Index"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Events = lazy(() => import("./pages/Events"));
+const LostFound = lazy(() => import("./pages/LostFound"));
+const Feedback = lazy(() => import("./pages/Feedback"));
+const Clubs = lazy(() => import("./pages/Clubs"));
+const Resources = lazy(() => import("./pages/Resources"));
+const Polls = lazy(() => import("./pages/Polls"));
+const Announcements = lazy(() => import("./pages/Announcements"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -67,37 +69,44 @@ const RoleHomeRedirect = () => {
   return <Navigate to={getRoleHomeRoute(role)} replace />;
 };
 
+const RouteLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <p className="text-sm text-muted-foreground">Loading page…</p>
+  </div>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<RoleHomeRedirect />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/lost-found" element={<LostFound />} />
-            <Route path="/feedback" element={<Feedback />} />
-            <Route path="/clubs" element={<Clubs />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/polls" element={<Polls />} />
-            <Route path="/announcements" element={<Announcements />} />
-          </Route>
-          <Route element={<RoleProtectedRoute allowedRoles={["student"]} />}>
-            <Route path="/student" element={<Dashboard />} />
-          </Route>
-          <Route element={<RoleProtectedRoute allowedRoles={["teacher"]} />}>
-            <Route path="/faculty" element={<Dashboard />} />
-          </Route>
-          <Route element={<RoleProtectedRoute allowedRoles={["admin"]} />}>
-            <Route path="/admin" element={<Dashboard />} />
-          </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <Suspense fallback={<RouteLoader />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<RoleHomeRedirect />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/lost-found" element={<LostFound />} />
+              <Route path="/feedback" element={<Feedback />} />
+              <Route path="/clubs" element={<Clubs />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/polls" element={<Polls />} />
+              <Route path="/announcements" element={<Announcements />} />
+            </Route>
+            <Route element={<RoleProtectedRoute allowedRoles={["student"]} />}>
+              <Route path="/student" element={<Dashboard />} />
+            </Route>
+            <Route element={<RoleProtectedRoute allowedRoles={["teacher"]} />}>
+              <Route path="/faculty" element={<Dashboard />} />
+            </Route>
+            <Route element={<RoleProtectedRoute allowedRoles={["admin"]} />}>
+              <Route path="/admin" element={<Dashboard />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

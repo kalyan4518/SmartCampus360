@@ -1,6 +1,5 @@
 import { toast } from "sonner";
-
-const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "");
+import { apiBaseUrl, backendOrigin, buildBackendUrl } from "@/lib/config";
 
 type PrimitiveBody = Record<string, unknown> | FormData | undefined | null;
 
@@ -75,7 +74,7 @@ const normaliseBody = (body: PrimitiveBody): BodyInit | undefined => {
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { body, skipToast, ...rest } = options;
-  const url = /^https?:/i.test(path) ? path : `${API_BASE}${path.startsWith("/") ? path : `/${path}`}`;
+  const url = buildBackendUrl(path);
 
   const response = await fetch(url, {
     ...rest,
@@ -112,7 +111,9 @@ export const api = {
   put: <T>(path: string, body?: PrimitiveBody, options?: RequestOptions) =>
     request<T>(path, { method: "PUT", body, ...options }),
   delete: <T>(path: string, options?: RequestOptions) => request<T>(path, { method: "DELETE", ...options }),
-  baseUrl: API_BASE,
+  baseUrl: backendOrigin,
+  apiBaseUrl,
+  buildUrl: buildBackendUrl,
 };
 
 type Api = typeof api;

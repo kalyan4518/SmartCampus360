@@ -45,8 +45,7 @@ const Resources = () => {
 
   const resolveFileUrl = (fileUrl?: string) => {
     if (!fileUrl) return null;
-    if (fileUrl.startsWith("http")) return fileUrl;
-    return `${api.baseUrl}${fileUrl}`;
+    return api.buildUrl(fileUrl);
   };
 
   const downloadMutation = useMutation({

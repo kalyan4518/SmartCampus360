@@ -19,7 +19,14 @@ app.disable("x-powered-by");
 
 const clientOrigins = process.env.CLIENT_URL
   ? process.env.CLIENT_URL.split(",").map((origin) => origin.trim())
-  : ["http://localhost:3000", "http://localhost:8080", "http://localhost:8081", "http://localhost:8082"];
+  : [
+      "http://localhost:3000",
+      "http://localhost:4173",
+      "http://127.0.0.1:4173",
+      "http://localhost:8080",
+      "http://localhost:8081",
+      "http://localhost:8082",
+    ];
 
 app.use(helmet());
 app.use(

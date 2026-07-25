@@ -1,4 +1,4 @@
-# Smart Campus Ecosystem – Frontend
+ # Smart Campus Ecosystem – Frontend
 
 This repository contains the frontend implementation of the Smart Campus Ecosystem. The application provides a modern interface for students, faculty, and administrators to interact with campus services such as events, announcements, clubs, and resources.
 

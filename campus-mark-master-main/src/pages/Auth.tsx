@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { GraduationCap } from "lucide-react";
+import { getPublicAssetUrl } from "@/lib/config";
 
 type LoginRole = "student" | "teacher" | "admin";
 
@@ -59,6 +60,7 @@ const roleCredentialHintMap: Record<LoginRole, { email: string; password: string
   teacher: { email: "faculty@test.com", password: "1234" },
   admin: { email: "admin@test.com", password: "1234" },
 };
+const campusHeroImage = getPublicAssetUrl("KLH-Aziznagar.jpeg");
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -116,7 +118,7 @@ const Auth = () => {
   return (
     <div
       className="relative min-h-screen flex items-center justify-center p-4 bg-cover bg-center"
-      style={{ backgroundImage: "url('/KLH-Aziznagar.jpeg')" }}
+      style={{ backgroundImage: `url('${campusHeroImage}')` }}
     >
   <div className="absolute inset-0 bg-black/50" />
 

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Calendar, Search, Bell, Users, GraduationCap, Shield } from "lucide-react";
+import { getPublicAssetUrl } from "@/lib/config";
+
+const campusHeroImage = getPublicAssetUrl("KLH-Aziznagar.jpeg");
 
 const Index = () => {
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ const Index = () => {
       <section className="relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/KLH-Aziznagar.jpeg')" }}
+          style={{ backgroundImage: `url('${campusHeroImage}')` }}
         ></div>
         <div className="absolute inset-0 bg-black/50"></div>
 
